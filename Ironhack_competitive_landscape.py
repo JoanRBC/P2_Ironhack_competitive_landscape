@@ -2,7 +2,6 @@
 schools = {
     'ironhack': 10828,
     'app-academy': 10525,
-    'springboard': 11035,
     'le-wagon': 10868,
     'ubiqum-code-academy': 11111,
     'udacity': 11118,
@@ -113,4 +112,15 @@ schools = pd.concat(schools_list)
 schools.head()
 
 
-print(schools.head())
+def remove_tags_url(x):
+    TAG_RE = re.compile("/.*$")
+    return TAG_RE.sub('', x)
+
+def remove_tags_html(x):
+    TAG_RE = re.compile(r'<[^>]+>')
+    return TAG_RE.sub('', x)
+schools['description'] = schools['description'].apply(remove_tags_html)
+schools['website'] = schools['website'].apply(remove_tags_url)
+schools=schools.drop(['LogoUrl'], axis=1)
+
+badges['description'] = badges['description'].apply(remove_tags_html)
