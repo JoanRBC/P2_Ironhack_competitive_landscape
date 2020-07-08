@@ -108,3 +108,6 @@ badges.head()
 
 schools = pd.concat(schools_list)
 schools.head()
+
+
+print(schools.head())
