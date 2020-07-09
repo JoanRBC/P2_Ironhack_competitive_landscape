@@ -124,3 +124,22 @@ schools['website'] = schools['website'].apply(remove_tags_url)
 schools=schools.drop(['LogoUrl'], axis=1)
 
 badges['description'] = badges['description'].apply(remove_tags_html)
+
+
+#Pieter lines
+
+#change index 
+schools = schools.set_index("website")
+
+# import the module
+import pymysql
+from sqlalchemy import create_engine
+
+# create sqlalchemy engine
+engine = create_engine("mysql+pymysql://{user}:{pw}@localhost/{db}"
+                       .format(user="root",
+                               pw="vvonderboy",
+                               db="Switchup"))
+
+# Insert whole DataFrame into MySQL
+schools.to_sql('schools', con = engine, if_exists = 'append', chunksize = 1000)
