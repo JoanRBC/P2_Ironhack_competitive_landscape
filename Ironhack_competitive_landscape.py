@@ -130,6 +130,7 @@ schools=schools.drop(['LogoUrl'], axis=1)
 #badges data cleaning
 badges['description'] = badges['description'].apply(remove_tags_html)
 
+
 #comments data cleaning
 comments['body'] = comments['body'].apply(remove_tags_html)
 comments['graduatingYear'].fillna(0, inplace=True)
@@ -140,3 +141,23 @@ comments['graduatingYear']=comments['graduatingYear'].apply(convert_integer)
 comments=comments.drop(['queryDate'], axis=1)
 comments=comments.drop(['user'], axis=1)
 comments=comments.drop(['comments'], axis=1)
+
+
+#Pieter lines
+
+#change index 
+schools = schools.set_index("website")
+
+# import the module
+import pymysql
+from sqlalchemy import create_engine
+
+# create sqlalchemy engine
+engine = create_engine("mysql+pymysql://{user}:{pw}@localhost/{db}"
+                       .format(user="root",
+                               pw="vvonderboy",
+                               db="Switchup"))
+
+# Insert whole DataFrame into MySQL
+schools.to_sql('schools', con = engine, if_exists = 'append', chunksize = 1000)
+
