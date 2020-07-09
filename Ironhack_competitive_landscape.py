@@ -13,6 +13,7 @@ from pandas.io.json import json_normalize
 import requests
 
 
+
 def get_comments_school(school):
     #create a regex expressionn that will search for the html tags
     TAG_RE = re.compile(r'<[^>]+>')
@@ -91,7 +92,6 @@ badges_list = []
 schools_list = []
 
 for school, id in schools.items():
-    print(school)
     a, b, c, d = get_school_info(school, id)
 
     locations_list.append(a)
@@ -100,18 +100,12 @@ for school, id in schools.items():
     schools_list.append(d)
 
 locations = pd.concat(locations_list)
-locations
-
 courses = pd.concat(courses_list)
-courses.head(10)
-
 badges = pd.concat(badges_list)
-badges.head()
-
 schools = pd.concat(schools_list)
-schools.head()
 
 
+#functions for data cleaning
 def remove_tags_url(x):
     TAG_RE = re.compile("/.*$")
     return TAG_RE.sub('', x)
@@ -119,8 +113,30 @@ def remove_tags_url(x):
 def remove_tags_html(x):
     TAG_RE = re.compile(r'<[^>]+>')
     return TAG_RE.sub('', x)
+
+def convert_integer(x):
+    if type(x)==float:
+        x=int(x)
+    else:
+        x
+    return x
+
+#schools data cleaning
 schools['description'] = schools['description'].apply(remove_tags_html)
 schools['website'] = schools['website'].apply(remove_tags_url)
+#schools droping tables
 schools=schools.drop(['LogoUrl'], axis=1)
 
+#badges data cleaning
 badges['description'] = badges['description'].apply(remove_tags_html)
+
+#comments data cleaning
+comments['body'] = comments['body'].apply(remove_tags_html)
+comments['graduatingYear'].fillna(0, inplace=True)
+comments['graduatingYear']
+comments['graduatingYear']=comments['graduatingYear'].apply(convert_integer)
+
+#comments droping tables
+comments=comments.drop(['queryDate'], axis=1)
+comments=comments.drop(['user'], axis=1)
+comments=comments.drop(['comments'], axis=1)
