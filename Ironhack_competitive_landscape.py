@@ -2,7 +2,6 @@
 schools = {
     'ironhack': 10828,
     'app-academy': 10525,
-    'springboard': 11035,
     'le-wagon': 10868,
     'ubiqum-code-academy': 11111,
     'udacity': 11118,
@@ -107,10 +106,10 @@ courses = pd.concat(courses_list)
 courses.head(10)
 
 badges = pd.concat(badges_list)
-badges.head()
+badges.head(10)
 
 schools = pd.concat(schools_list)
-schools.head()
+schools.head(10)
 
 
-print(schools.head())
+print(schools.head(10))
