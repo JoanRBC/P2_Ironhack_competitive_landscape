@@ -102,15 +102,7 @@ for school, id in schools.items():
 locations = pd.concat(locations_list)
 courses = pd.concat(courses_list)
 badges = pd.concat(badges_list)
-<<<<<<< HEAD
-badges.head(10)
-
 schools = pd.concat(schools_list)
-schools.head(10)
-
-
-print(schools.head(10))
-=======
 schools = pd.concat(schools_list)
 
 
@@ -170,4 +162,46 @@ engine = create_engine("mysql+pymysql://{user}:{pw}@localhost/{db}"
 # Insert whole DataFrame into MySQL
 schools.to_sql('schools', con = engine, if_exists = 'append', chunksize = 1000)
 
->>>>>>> 5e2d93b7c1ef5c5904893500c221963a7906ea5f
+#Joan course data cleaning
+mydict = {}
+
+for x in courses['courses'].unique():
+    if x not in mydict.keys():
+        mydict[x] = 0
+    else:
+        continue
+
+
+
+def word_finder(keys):
+    global mydict
+
+    a = set(['data', 'analytics', 'analyst', 'science', 'python', 'react', 'artificial', 'AI', 'deep', 'machine','learning', 'natural'])
+    b = set(['web', 'development', 'android', 'ios', 'java'])
+    c = set(['UX', 'UI', 'design', 'designer'])
+    d = set(['online', 'remote'])
+
+    for key in keys:
+        if len(a.intersection(set(key.lower().split(" ")))) != 0:
+            mydict[key] = 'data analysis/data science' + ' related course'
+            # break
+        elif len(b.intersection(set(key.lower().split(" ")))) != 0:
+            mydict[key] = 'web development' + ' related course'
+            # break
+        elif len(c.intersection(set(key.lower().split(" ")))) != 0:
+            mydict[key] = 'UX/UI Design' + ' related course'
+            # break
+        elif len(d.intersection(set(key.lower().split(" ")))) != 0:
+            mydict[key] = 'online course'
+            # break
+        else:
+            mydict[key] = 'other courses'
+
+    return mydict
+
+
+word_finder(list(mydict.keys()))
+
+a = courses['courses']
+courses['courses by group'] = a #create a new column
+courses['courses by group'] = courses['courses by group'].replace(mydict)
