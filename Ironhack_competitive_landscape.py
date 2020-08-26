@@ -314,3 +314,28 @@ for x in list_to_drop:
 # schools.to_sql('schools', con = engine, if_exists = 'append', chunksize = 1000)
 # badges.to_sql('badges', con = engine, if_exists = 'append', chunksize = 1000)
 ###
+
+#for x in ('badges', 'schools', 'locations', 'courses', 'comments' ):
+#    string()
+#
+##badges.to_csv('/Users/guillaumeaubert/Documents/Ironhack/Module1/Projects/P2_Ironhack_competitive_landscape/badges.csv')
+#schools.to_csv('/Users/guillaumeaubert/Documents/Ironhack/Module1/Projects/P2_Ironhack_competitive_landscape/schools.csv')
+#locations.to_csv('/Users/guillaumeaubert/Documents/Ironhack/Module1/Projects/P2_Ironhack_competitive_landscape/locations.csv')
+#courses.to_csv('/Users/guillaumeaubert/Documents/Ironhack/Module1/Projects/P2_Ironhack_competitive_landscape/courses.csv')
+#comments.to_csv('/Users/guillaumeaubert/Documents/Ironhack/Module1/Projects/P2_Ironhack_competitive_landscape/comments.csv')
+#
+#comments.range
+#badges
+
+
+#badges_number = ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7']
+#badges['badges_id'] = badges_number
+
+list_ok = ['c'+ str(x) for x in range(len(comments))]
+comments['comments_id'] = list_ok
+
+print(list_ok)
+
+len(comments['comments_id'])
+
+comments.to_csv('/Users/guillaumeaubert/Documents/Ironhack/Module1/Projects/P2_Ironhack_competitive_landscape/comments.csv')
